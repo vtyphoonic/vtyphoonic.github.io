@@ -1,0 +1,5 @@
+markdown: kramdown
+theme: minima
+
+include:
+  - _includes/head-custom.html

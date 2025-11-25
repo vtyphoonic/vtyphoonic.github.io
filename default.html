@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title | default: "Proyecto Data Science" }}</title>
+    <link rel="stylesheet" href="[https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css](https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css)">
+</head>
+<body>
+    <main class="container">
+        {{ content }}
+    </main>
+
+    <script type="module">
+        import mermaid from '[https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs](https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs)';
+        
+        // Configuración
+        mermaid.initialize({ startOnLoad: false });
+
+        // Paso Crítico: Convertir bloques de código Markdown a divs de Mermaid
+        // GitHub convierte ```mermaid a <div class="language-mermaid">...</div> o similar
+        document.addEventListener("DOMContentLoaded", async () => {
+            const elements = document.querySelectorAll('pre code.language-mermaid, div.language-mermaid');
+            
+            for (const element of elements) {
+                // Limpiar el contenedor
+                const content = element.textContent;
+                const newDiv = document.createElement('div');
+                newDiv.classList.add('mermaid');
+                newDiv.textContent = content;
+                
+                // Reemplazar el bloque de código con el div listo para renderizar
+                const pre = element.closest('pre');
+                if (pre) {
+                    pre.replaceWith(newDiv);
+                } else {
+                    element.replaceWith(newDiv);
+                }
+            }
+            
+            // Ahora sí, renderizar
+            await mermaid.run();
+        });
+    </script>
+</body>
+</html>

@@ -22,8 +22,7 @@ Para aislar las variables críticas, construimos un pipeline unificado cruzando 
 2.  **Clima (DMC - Quinta Normal):** Cálculo de **Grados-Día de Calefacción (HDD)** base 15°C para medir la demanda térmica real, superando el uso simplista de la temperatura promedio.
 3.  **Socioeconómico (CASEN):** Interpolación lineal de ingresos y pobreza (2015-2025) para dar continuidad temporal a las encuestas bianuales.
 
-```mermaid
-graph TD
+<div class="mermaid">graph TD
     subgraph Fuentes [Fuentes de Datos Originales]
         A[("Energía (CNE)\nFacturación Histórica")]:::blue
         B[("Clima (DMC)\nEstación Quinta Normal")]:::blue
@@ -54,7 +53,7 @@ graph TD
     classDef gold fill:#fff9c4,stroke:#fbc02d,color:black;
     classDef green fill:#e8f5e9,stroke:#2e7d32,color:black;
     classDef red fill:#ffebee,stroke:#c62828,color:black;
-```
+</div>
 
 ---
 

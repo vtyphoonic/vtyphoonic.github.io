@@ -38,7 +38,7 @@ graph TD
     end
 
     subgraph Master [Consolidación]
-        D --> G{Master Table\n(Merge por Comuna y Mes)}:::gold
+        D --> G[("Master Table\n(Merge por Comuna y Mes)")]:::gold
         E --> G
         F --> G
     end

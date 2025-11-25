@@ -22,7 +22,36 @@ Para aislar las variables críticas, construimos un pipeline unificado cruzando 
 2.  **Clima (DMC - Quinta Normal):** Cálculo de **Grados-Día de Calefacción (HDD)** base 15°C para medir la demanda térmica real, superando el uso simplista de la temperatura promedio.
 3.  **Socioeconómico (CASEN):** Interpolación lineal de ingresos y pobreza (2015-2025) para dar continuidad temporal a las encuestas bianuales.
 
-![Diagrama del Pipeline de Datos y ETL](ruta/a/imagen_pipeline.png)
+graph TD
+    %% Definición de Estilos
+    classDef sources fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
+    classDef process fill:#fff9c4,stroke:#fbc02d,stroke-width:2px;
+    classDef storage fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
+    classDef model fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px;
+
+    subgraph Fuentes["1. Fuentes de Datos (Raw)"]
+        A[("CNE: Facturación\nHistórica")]:::sources
+        B[("DMC: Estación\nQuinta Normal")]:::sources
+        C[("CASEN: Encuestas\nSocioeconómicas")]:::sources
+    end
+
+    subgraph ETL["2. Procesamiento (ETL)"]
+        A --> D[Limpieza y\nFiltro RM]:::process
+        B --> E[Cálculo de\nHDD/CDD]:::process
+        C --> F[Interpolación y\nProyección Lineal]:::process
+    end
+
+    subgraph Integracion["3. Consolidación"]
+        D --> G{Master Table\n(Merge por Comuna/Fecha)}:::storage
+        E --> G
+        F --> G
+    end
+
+    subgraph ML["4. Modelado"]
+        G --> H[Split Temporal\n(2015-2022 / 2023+)]:::model
+        H --> I[XGBoost Regressor]:::model
+        I --> J[Evaluación y\nAnálisis de Residuos]:::model
+    end
 
 ---
 
@@ -36,7 +65,7 @@ Al segmentar el consumo por nivel socioeconómico, la desigualdad se hace tangib
 * **Quintil 5 (Altos Ingresos):** Demanda elástica. Ante el frío, el consumo se dispara. Tienen los medios para climatizar.
 * **Quintil 1 (Bajos Ingresos):** Demanda inelástica/rígida. Ante el frío, el consumo apenas varía. No es eficiencia, es incapacidad de gasto.
 
-![Boxplot de Consumo por Quintil de Ingreso](ruta/a/imagen_boxplot_quintiles.png)
+![Boxplot de Consumo por Quintil de Ingreso](assets/imagen_boxplot_quintiles.png)
 
 ---
 
@@ -55,7 +84,7 @@ Entrenamos un modelo de regresión **XGBoost** respetando la causalidad temporal
 
 **Impacto:** El modelo tiene la precisión suficiente para ser utilizado como herramienta de auditoría territorial por distribuidoras y el Estado.
 
-![Gráfico de Predicción vs Realidad en Set de Prueba](ruta/a/imagen_prediccion_vs_real.png)
+![Gráfico de Predicción vs Realidad en Set de Prueba](assets/imagen_prediccion_vs_real.png)
 
 ---
 

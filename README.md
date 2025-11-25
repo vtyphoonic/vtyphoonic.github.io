@@ -22,36 +22,38 @@ Para aislar las variables críticas, construimos un pipeline unificado cruzando 
 2.  **Clima (DMC - Quinta Normal):** Cálculo de **Grados-Día de Calefacción (HDD)** base 15°C para medir la demanda térmica real, superando el uso simplista de la temperatura promedio.
 3.  **Socioeconómico (CASEN):** Interpolación lineal de ingresos y pobreza (2015-2025) para dar continuidad temporal a las encuestas bianuales.
 
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#ffcc80', 'edgeLabelBackground':'#ffffff', 'tertiaryColor': '#fff'}}}%%
 graph TD
-    %% Definición de Estilos
-    classDef sources fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
-    classDef process fill:#fff9c4,stroke:#fbc02d,stroke-width:2px;
-    classDef storage fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
-    classDef model fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px;
-
-    subgraph Fuentes["1. Fuentes de Datos (Raw)"]
-        A[("CNE: Facturación\nHistórica")]:::sources
-        B[("DMC: Estación\nQuinta Normal")]:::sources
-        C[("CASEN: Encuestas\nSocioeconómicas")]:::sources
+    subgraph Fuentes [Fuentes de Datos Originales]
+        A[("Energía (CNE)\nFacturación Histórica")]:::blue
+        B[("Clima (DMC)\nEstación Quinta Normal")]:::blue
+        C[("Socioeconómico (CASEN)\nEncuestas de Hogares")]:::blue
     end
 
-    subgraph ETL["2. Procesamiento (ETL)"]
-        A --> D[Limpieza y\nFiltro RM]:::process
-        B --> E[Cálculo de\nHDD/CDD]:::process
-        C --> F[Interpolación y\nProyección Lineal]:::process
+    subgraph ETL [Procesamiento y Transformación]
+        A -->|Limpieza y Filtro| D[Datos Energía Limpios]
+        B -->|Cálculo HDD/CDD| E[Datos Clima Agregados]
+        C -->|Interpolación Lineal| F[Proyección Ingresos/Pobreza]
     end
 
-    subgraph Integracion["3. Consolidación"]
-        D --> G{Master Table\n(Merge por Comuna/Fecha)}:::storage
+    subgraph Master [Consolidación]
+        D --> G{Master Table\n(Merge por Comuna y Mes)}:::gold
         E --> G
         F --> G
     end
 
-    subgraph ML["4. Modelado"]
-        G --> H[Split Temporal\n(2015-2022 / 2023+)]:::model
-        H --> I[XGBoost Regressor]:::model
-        I --> J[Evaluación y\nAnálisis de Residuos]:::model
+    subgraph Modelo [Machine Learning]
+        G -->|Split Temporal| H[Entrenamiento\n(2015-2022)]:::green
+        G -->|Split Temporal| I[Test\n(2023-2024)]:::red
+        H --> J[XGBoost Regressor]
+        I --> J
+        J --> K[Evaluación de Impacto]
     end
+
+    classDef blue fill:#e1f5fe,stroke:#01579b,color:black;
+    classDef gold fill:#fff9c4,stroke:#fbc02d,color:black;
+    classDef green fill:#e8f5e9,stroke:#2e7d32,color:black;
+    classDef red fill:#ffebee,stroke:#c62828,color:black;
 
 ---
 

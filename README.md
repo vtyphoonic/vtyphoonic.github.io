@@ -55,7 +55,6 @@ graph TD
     classDef gold fill:#fff9c4,stroke:#fbc02d,color:black;
     classDef green fill:#e8f5e9,stroke:#2e7d32,color:black;
     classDef red fill:#ffebee,stroke:#c62828,color:black;
-```
 
 ---
 

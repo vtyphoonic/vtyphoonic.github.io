@@ -117,3 +117,8 @@ Sí, y se puede superar. El análisis de residuos del modelo detectó un **"exce
 ### Referencia Técnica
 Para profundizar en la adaptación de algoritmos de boosting para series temporales:
 [Video: XGBoost for Time Series Forecasting](https://www.youtube.com/watch?v=z3ZnOW-S550)
+
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true });
+</script>

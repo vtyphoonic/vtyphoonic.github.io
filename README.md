@@ -22,8 +22,7 @@ Para aislar las variables críticas, construimos un pipeline unificado cruzando 
 2.  **Clima (DMC - Quinta Normal):** Cálculo de **Grados-Día de Calefacción (HDD)** base 15°C para medir la demanda térmica real, superando el uso simplista de la temperatura promedio.
 3.  **Socioeconómico (CASEN):** Interpolación lineal de ingresos y pobreza (2015-2025) para dar continuidad temporal a las encuestas bianuales.
 
-```html
-<div class="mermaid">
+```mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#ffcc80', 'edgeLabelBackground':'#ffffff', 'tertiaryColor': '#fff'}}}%%
 graph TD
     subgraph Fuentes [Fuentes de Datos Originales]
@@ -45,7 +44,6 @@ graph TD
     end
 
     subgraph Modelo [Machine Learning]
-        %% AQUÍ ESTABA EL ERROR: Se añadieron comillas dobles para proteger los paréntesis %%
         G -->|Split Temporal| H["Entrenamiento\n(2015-2022)"]:::green
         G -->|Split Temporal| I["Test\n(2023-2024)"]:::red
         H --> J[XGBoost Regressor]
@@ -57,7 +55,6 @@ graph TD
     classDef gold fill:#fff9c4,stroke:#fbc02d,color:black;
     classDef green fill:#e8f5e9,stroke:#2e7d32,color:black;
     classDef red fill:#ffebee,stroke:#c62828,color:black;
-</div>
 ```
 
 ---
@@ -117,8 +114,3 @@ Sí, y se puede superar. El análisis de residuos del modelo detectó un **"exce
 ### Referencia Técnica
 Para profundizar en la adaptación de algoritmos de boosting para series temporales:
 [Video: XGBoost for Time Series Forecasting](https://www.youtube.com/watch?v=z3ZnOW-S550)
-
-<script type="module">
-  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-  mermaid.initialize({ startOnLoad: true });
-</script>

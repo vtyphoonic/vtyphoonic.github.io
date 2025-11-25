@@ -1,3 +1,8 @@
+---
+layout: default
+title: Desigualdad Térmica
+---
+
 # Desigualdad Térmica y Eficiencia: Predicción del Consumo Eléctrico en la RM
 ### Un enfoque de Ciencia de Datos para la planificación energética territorial
 

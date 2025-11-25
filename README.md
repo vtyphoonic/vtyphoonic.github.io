@@ -23,7 +23,6 @@ Para aislar las variables críticas, construimos un pipeline unificado cruzando 
 3.  **Socioeconómico (CASEN):** Interpolación lineal de ingresos y pobreza (2015-2025) para dar continuidad temporal a las encuestas bianuales.
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#ffcc80', 'edgeLabelBackground':'#ffffff', 'tertiaryColor': '#fff'}}}%%
 graph TD
     subgraph Fuentes [Fuentes de Datos Originales]
         A[("Energía (CNE)\nFacturación Histórica")]:::blue

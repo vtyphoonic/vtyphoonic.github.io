@@ -44,8 +44,9 @@ graph TD
     end
 
     subgraph Modelo [Machine Learning]
-        G -->|Split Temporal| H[Entrenamiento\n(2015-2022)]:::green
-        G -->|Split Temporal| I[Test\n(2023-2024)]:::red
+        %% AQUÍ ESTABA EL ERROR: Se añadieron comillas dobles para proteger los paréntesis %%
+        G -->|Split Temporal| H["Entrenamiento\n(2015-2022)"]:::green
+        G -->|Split Temporal| I["Test\n(2023-2024)"]:::red
         H --> J[XGBoost Regressor]
         I --> J
         J --> K[Evaluación de Impacto]
